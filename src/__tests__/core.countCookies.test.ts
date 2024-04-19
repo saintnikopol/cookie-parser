@@ -1,4 +1,4 @@
-// import { describe } from 'yargs';
+import { describe, expect, test } from '@jest/globals';
 import { countCookies } from '../core';
 
 describe('Cookie Parser', () => {
@@ -7,7 +7,7 @@ describe('Cookie Parser', () => {
 AtY0laUfhglK3lC7,2018-12-09T14:19:00+00:00
 SAZuXPGUrfbcn5UA,2018-12-09T10:13:00+00:00
 AtY0laUfhglK3lC7,2018-12-09T06:19:00+00:00`;
-        const date = '2018-12-09';
+        const date = new Date('2018-12-09');
         const mostActiveCookies = countCookies(testData, date);
         expect(mostActiveCookies).toEqual(['AtY0laUfhglK3lC7']);
     });
@@ -20,7 +20,7 @@ JJJJJJJUrfbcn5UA,2018-12-09T10:13:00+00:00
 AtY0laUfhglK3lC7,2018-12-09T06:19:00+00:00
 SAZuXPGUrfbcn5UA,2018-12-09T10:13:00+00:00
 `;
-        const date = '2018-12-09';
+        const date = new Date('2018-12-09');
         const mostActiveCookies = countCookies(testData, date);
         expect(mostActiveCookies.length).toEqual(2);
         expect(mostActiveCookies).toContain('AtY0laUfhglK3lC7');

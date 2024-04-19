@@ -2,7 +2,7 @@
 import path from 'path';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import { loadDataAndCountCookies } from './core';
+import { loadDataAndCountCookies, parseDate } from './core';
 
 interface Args {
     f: string; // filename
@@ -22,12 +22,12 @@ const argv = yargs(hideBin(process.argv)).options({
 
 
 const main = async () => {
-    // node index.js -f cookie_log.csv -d 2018-12-09
-
     const filePath = argv.f;
     const date = argv.d;
     const fullPath = path.resolve(__dirname, '..', filePath);
-    const mostActiveCookies = loadDataAndCountCookies(fullPath, date);
+
+    const parsedDate = parseDate(date);
+    const mostActiveCookies = loadDataAndCountCookies(fullPath, parsedDate);
     mostActiveCookies.forEach((cookie) => log(cookie));
 };
 
