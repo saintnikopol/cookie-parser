@@ -22,6 +22,7 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
+    "date-fns": "^3.6.0",
     "yargs": "^17.7.2"
   }
 }
