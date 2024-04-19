@@ -4,7 +4,7 @@
   "description": "Script which finds most active cookie",
   "main": "index.js",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json && chmod +x dist/index.js",
     "start": "ts-node src/index.ts",
     "test": "jest"
   },
