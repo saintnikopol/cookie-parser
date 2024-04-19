@@ -10,8 +10,8 @@ Build:
 npm install && npm run build
 
 Usage: 
-node dist/index.js -f ./test_files/original1.csv -d 2018-12-09
+dist/index.js -f ./test_files/original1.csv -d 2018-12-09
 
-Expexted output:
+Expected output:
 
 AtY0laUfhglK3lC7
