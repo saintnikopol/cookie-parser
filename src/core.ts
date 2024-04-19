@@ -10,11 +10,12 @@ export const countCookies = (data: string, date: Date): string[] => {
 
     const dateYYYYMMDD = formatDate(date);
 
-    for (let line of lines) {
-        if (line.trim() === '') {
+    for (let i = 1; i < lines.length; i++) { // Start from 1 to skip the header
+
+        const line = lines[i].trim();
+        if (line === '') {
             continue;
         }
-
         const [cookie, timestamp] = line.split(',');
         const entryDate = toUTCDate(timestamp);
 
@@ -22,29 +23,32 @@ export const countCookies = (data: string, date: Date): string[] => {
             // Take into account condition:
             // Cookies in the log file are sorted by timestamp (most recent occurrence is the first line of the file).
             if (entryDate < dateYYYYMMDD) {
-                break;  // Stop searching as all further entries will be from an earlier date
+                break;  // Correctly stops processing since data is strictly ordered
             }
             continue;
         }
 
-        const currentCount = (counts.get(cookie) ?? 0) + 1;
-        counts.set(cookie, currentCount);
+
+        const currentCount = (counts.get(cookie) ?? 0) + 1; // Increment first
+        counts.set(cookie, currentCount); // Update the map after incrementing
 
         if (currentCount > maxCount) {
             maxCount = currentCount;
-            mostActiveCookies = [cookie];
+            mostActiveCookies = [cookie]; // Resets and updates the list with the current highest count
         } else if (currentCount === maxCount) {
-            mostActiveCookies.push(cookie);
+            if (!mostActiveCookies.includes(cookie)) {
+                mostActiveCookies.push(cookie); // Add to the list if this cookie reaches the max count
+            }
         }
     }
 
     return mostActiveCookies;
 };
 
+
 export const loadDataAndCountCookies = (
     filePath: string, date: Date,
 ): string[] => {
-    // Take into account condition: You have enough memory to store the contents of the whole file
     const data = fs.readFileSync(path.resolve(__dirname, filePath), 'utf-8');
     return countCookies(data, date);
 };

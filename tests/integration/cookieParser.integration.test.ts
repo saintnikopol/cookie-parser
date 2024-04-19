@@ -31,6 +31,57 @@ describe('Cookie Parser integration tests', () => {
         expect(result.trim()).toContain('4sMM2LxV07bPJzwf');
     });
 
+    test('It should work correctly on 4x2 dataset', () => {
+        const dataSetFileName = path.resolve(__dirname, '../../test_files/4_for_2_on_single_date.csv');
+        const command = `node ${scriptPath} -f ${dataSetFileName} -d 2024-04-19`;
+
+        const result = shell.exec(command, { silent: true }).stdout;
+
+        expect(result.trim()).toContain('cookie_1');
+        expect(result.trim()).toContain('cookie_2');
+        expect(result.trim().split('\n').length).toBe(2);
+    });
+
+    test('It should work correctly on 10x2 dataset', () => {
+        const dataSetFileName = path.resolve(__dirname, '../../test_files/10_for_2_on_single_date.csv');
+        const command = `node ${scriptPath} -f ${dataSetFileName} -d 2024-04-19`;
+
+        const result = shell.exec(command, { silent: true }).stdout;
+
+        expect(result.trim().split('\n').length).toBe(1);
+        expect(result.trim()).toContain('cookie_2');
+    });
+
+    test('It should work correctly on 100x2 dataset', () => {
+        const dataSetFileName = path.resolve(__dirname, '../../test_files/100_for_2_on_single_date.csv');
+        const command = `node ${scriptPath} -f ${dataSetFileName} -d 2024-04-19`;
+
+        const result = shell.exec(command, { silent: true }).stdout;
+
+        expect(result.trim().split('\n').length).toBe(1);
+        expect(result.trim()).toContain('cookie_2');
+    });
+
+    test('It should work correctly on large dataset with not found date', () => {
+        const largeDataSetFileName = path.resolve(__dirname, '../../test_files/100000_for_100_x10_dates.csv');
+        const command = `node ${scriptPath} -f ${largeDataSetFileName} -d 2004-04-19`;
+
+        const result = shell.exec(command, { silent: true }).stdout;
+
+        expect(result.trim()).toEqual('');
+        expect(result.trim().split('\n').length).toBe(1);
+    });
+
+    test('It should work correctly on large dataset', () => {
+        const largeDataSetFileName = path.resolve(__dirname, '../../test_files/100000_for_100_x10_dates.csv');
+        const command = `node ${scriptPath} -f ${largeDataSetFileName} -d 2024-04-19`;
+
+        const result = shell.exec(command, { silent: true }).stdout;
+
+        expect(result.trim()).toEqual('cookie_6');
+        expect(result.trim().split('\n').length).toBe(1);
+    })
+
     test('It should handle non-existent files with a error message', () => {
         const command = `node ${scriptPath} -f incorrect_path.csv -d 2018-12-09`;
         const result = shell.exec(command, { silent: true });
