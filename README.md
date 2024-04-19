@@ -74,3 +74,14 @@ Holds integration tests that run the entire application with various input confi
 
 #### test_files/
 Sample CSV files used in testing to provide various scenarios of cookie logs.
+
+
+## Support utils.
+Sever supportive utilities has been created:
+
+// verify date order of tested file
+node dist/utils/validate_date_order.js <filename>
+
+
+// generate new data file
+node dist/utils/generate_test_data.js <filename>
