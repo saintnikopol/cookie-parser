@@ -1,5 +1,10 @@
 import { describe, expect, test } from '@jest/globals';
-import { parseDate, formatDate, DATE_REGEX } from '../core';
+import {
+    parseDate,
+    formatDate,
+    toUTCDate,
+    DATE_REGEX,
+} from '../date';
 
 describe('DATE_REGEX', () => {
 
@@ -63,5 +68,23 @@ describe('formatDate', () => {
     test('formats date correctly', () => {
         const testDate = new Date(2020, 0, 1);
         expect(formatDate(testDate)).toBe('2020-01-01');
+    });
+});
+
+describe('toUTCDate function', () => {
+    test('converts date with timezone to UTC date string correctly', () => {
+        expect(toUTCDate('2018-12-09T14:19:00+00:00')).toBe('2018-12-09');
+        expect(toUTCDate('2018-12-09T14:19:00+01:00')).toBe('2018-12-09');
+        expect(toUTCDate('2018-12-08T23:30:00-05:00')).toBe('2018-12-09');
+        expect(toUTCDate('2018-12-08T20:00:00-08:00')).toBe('2018-12-09');
+        expect(toUTCDate('2018-12-10T04:00:00+10:00')).toBe('2018-12-09');
+        expect(toUTCDate('2018-12-08T18:30:00-10:00')).toBe('2018-12-09');
+    });
+
+    test('handles edge cases around midnight', () => {
+        expect(toUTCDate('2018-12-08T23:59:59-00:00')).toBe('2018-12-08');
+        expect(toUTCDate('2018-12-09T00:00:00+00:00')).toBe('2018-12-09');
+        expect(toUTCDate('2018-12-09T00:00:00+00:01')).toBe('2018-12-08');
+        expect(toUTCDate('2018-12-08T23:59:59-00:01')).toBe('2018-12-09');
     });
 });

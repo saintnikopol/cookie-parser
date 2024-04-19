@@ -2,7 +2,8 @@
 import path from 'path';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import { loadDataAndCountCookies, parseDate } from './core';
+import { loadDataAndCountCookies } from './core';
+import { parseDate } from './date';
 
 interface Args {
     f: string; // filename
