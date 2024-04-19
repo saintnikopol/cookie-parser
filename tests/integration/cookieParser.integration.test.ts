@@ -25,7 +25,6 @@ describe('Cookie Parser integration tests', () => {
 
         const command = `node ${scriptPath} -f ${inputFilePathCrossTimeZone} -d 2018-12-09`;
         const result = shell.exec(command, { silent: true }).stdout;
-        console.log('result is = ', result)
         expect(result.trim().split('\n').length).toBe(2);
 
         expect(result.trim()).toContain('AtY0laUfhglK3lC7');
