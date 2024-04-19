@@ -87,4 +87,8 @@ describe('toUTCDate function', () => {
         expect(toUTCDate('2018-12-09T00:00:00+00:01')).toBe('2018-12-08');
         expect(toUTCDate('2018-12-08T23:59:59-00:01')).toBe('2018-12-09');
     });
+
+    test('Special test case for +1 hour to GMT+1 timezone', () => {
+        expect(toUTCDate('2024-04-19T23:11:11+00:00')).toBe('2024-04-19');
+    })
 });

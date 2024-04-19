@@ -24,6 +24,5 @@ export const formatDate = (date: Date): string => {
 
 export const toUTCDate = (dateStr: string) => {
     const date = new Date(dateStr);
-    const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
-    return formatDate(utcDate);
-}
+    return date.toISOString().split('T')[0];
+};
