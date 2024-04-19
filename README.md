@@ -6,8 +6,24 @@ Cookie Parser is a command-line tool designed to identify the most active cookie
 ## Features
 - Parses any CSV file following the specified format.
 - Filters cookies by date with high accuracy including handling time zones.
-- [todo] Efficiently handles large datasets.
+- Efficiently handles large datasets with linear scan and early break-out.
 
+## Performance considerations
+ Because data in log record are sorted by date. It's possible to optimize system via using binary search.
+ Naive approach to this would be read all data in file and make binary search by characters in array to find start of needed date and then proceed with a linear scan till this day ends
+ It will have linear complexity anyway, cause it will read whole file into the memory.
+ Correct approach to implement binary search would require additional actions:
+    - read data from file in chunks for around 100-1000 bytes, using random access
+    - correctly guess start of character, cause UTF-8 char could have different length, not just 1 char character
+    - find end of string and find date in next string, use it as point of comparison
+    - IO subsystem should effectively allow random access
+This solution was no implemented.
+
+## Data validity
+Script "./dist/index.js" expect data to be valid. To ensure that passed file is correct I created utility script which will validate input data: "dist/util/validate_date_order.tsc"
+
+
+## Example data
 
 Example cookie log:
 
